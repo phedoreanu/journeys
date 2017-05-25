@@ -1,0 +1,4 @@
+dev:
+  dbURI: pie:d4e0a661552fcb11b0ba@tcp(localhost:3306)/pie?parseTime=true
+production:
+  dbURI: production_user:e538b2a9131d42fe755e@tcp(db.piemapping.co:3306)/pie?parseTime=true
