@@ -20,13 +20,10 @@ type server struct {
 	db *sql.DB
 }
 
-func (s *server) findByDriverHandler(w http.ResponseWriter, r *http.Request) {
+func (s *server) findByDriverIDHandler(w http.ResponseWriter, r *http.Request) {
 	driverID := r.URL.Query().Get("driverID")
 
-	data := struct {
-		Journeys []*model.Journey `json:"journeys"`
-	}{Journeys: FindByDriver(driverID, s.db)}
-	ok(w, data)
+	okJourneys(w, FindByDriverID(driverID, s.db))
 }
 
 func (s *server) findByLocationAndTimeHandler(w http.ResponseWriter, r *http.Request) {
@@ -34,9 +31,13 @@ func (s *server) findByLocationAndTimeHandler(w http.ResponseWriter, r *http.Req
 	start, _ := time.Parse(dateTimeForm, r.URL.Query().Get("start"))
 	end, _ := time.Parse(dateTimeForm, r.URL.Query().Get("end"))
 
+	okJourneys(w, FindByLocationAndTime(location, start, end, s.db))
+}
+
+func okJourneys(w http.ResponseWriter, journeys []*model.Journey) {
 	data := struct {
 		Journeys []*model.Journey `json:"journeys"`
-	}{Journeys: FindByLocationAndTime(location, start, end, s.db)}
+	}{Journeys: journeys}
 	ok(w, data)
 }
 
@@ -70,7 +71,8 @@ func main() {
 	log.Println("Staring Journeys API:4000")
 
 	s := &server{db: db}
-	http.HandleFunc("/journeys/driver/", s.findByDriverHandler)
+	http.HandleFunc("/journeys/driver/", s.findByDriverIDHandler)
+	http.HandleFunc("/journeys/location/", s.findByLocationAndTimeHandler)
 	http.ListenAndServe(":4000", nil)
 }
 

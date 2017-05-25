@@ -53,7 +53,7 @@ func (a *apiFeature) iSendRequestTo(method, endpoint string) (err error) {
 	switch endpoint {
 	case "/journeys/driver/", "/journeys/driver/?driverID=DRIVER_1_ID",
 		"/journeys/driver/?driverID=DRIVER_2_ID", "/journeys/driver/?driverID=DRIVER_3_ID":
-		a.findByDriverHandler(a.resp, req)
+		a.findByDriverIDHandler(a.resp, req)
 	case "/journeys/location/?location=London&start=2016-03-11 03:00:00&end=2016-03-11 04:00:00",
 		"/journeys/location/?location=Brighton&start=2016-03-11 09:00:00&end=2016-03-11 23:00:00",
 		"/journeys/location/?location=Manchester&start=2016-03-12 03:00:00&end=2016-03-12 8:00:00":
@@ -75,7 +75,7 @@ func (a *apiFeature) theResponseCodeShouldBe(code int) error {
 	return nil
 }
 
-func (a *apiFeature) theResponseShouldMatchJson(body *gherkin.DocString) (err error) {
+func (a *apiFeature) theResponseShouldMatchJSON(body *gherkin.DocString) (err error) {
 	var expected, actual []byte
 	var exp, act interface{}
 
@@ -123,5 +123,5 @@ func FeatureContext(s *godog.Suite) {
 
 	s.Step(`^I send "([^"]*)" request to "([^"]*)"$`, api.iSendRequestTo)
 	s.Step(`^the response code should be (\d+)$`, api.theResponseCodeShouldBe)
-	s.Step(`^the response should match json:$`, api.theResponseShouldMatchJson)
+	s.Step(`^the response should match json:$`, api.theResponseShouldMatchJSON)
 }
