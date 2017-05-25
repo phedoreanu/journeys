@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+FEATURES="find_by_driver.feature find_by_location_and_time.feature"
+for FEATURE in ${FEATURES}; do
+    godog features/${FEATURE}
+    if [ "$?" -ne "0" ]; then
+      echo "BDD tests failed"
+      exit 1
+    fi
+done

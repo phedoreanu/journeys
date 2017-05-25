@@ -1,16 +1,8 @@
 #!/usr/bin/env bash
 
-godog find_by_driver.feature
-if [ "$?" -ne "0" ]; then
-  echo "Tests failed"
-  exit 1
-fi
-
-godog find_by_location_and_time.feature
-if [ "$?" -ne "0" ]; then
-  echo "Tests failed"
-  exit 1
-fi
+# Run all BDDs before building
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+. ${DIR}/bdds
 
 IMAGE="phedoreanu/journeys:1.0.0"
 echo "Building $IMAGE"

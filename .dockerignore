@@ -1,8 +1,8 @@
 .idea/
 bin/
+features/
 .dockerignore
 .gitignore
 Dockerfile
-*.feature
 *.iml
 README.md
